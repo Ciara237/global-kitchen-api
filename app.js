@@ -1,0 +1,25 @@
+/**
+ * Entry point for The Global Kitchen API.
+ * Loads environment config, connects to MongoDB, mounts routes, and starts the HTTP server.
+ */
+
+require('dotenv').config();
+
+const express = require('express');
+const connectDB = require('./src/config/db');
+const recipeRoutes = require('./src/routes/recipe.routes');
+
+const app = express();
+
+app.use('/api/recipes', recipeRoutes);
+
+const PORT = process.env.PORT || 3000;
+
+async function start() {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+start();
